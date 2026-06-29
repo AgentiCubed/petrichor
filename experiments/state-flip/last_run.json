@@ -1,0 +1,22 @@
+{
+  "floor_food_mse": 0.75,
+  "noise_floor": 0.010000000000000002,
+  "baseline": {
+    "test_mse_all": 0.44598364732984136,
+    "test_mse_food": 0.7938720876754958,
+    "test_mse_nonfood": 0.05542964354556888,
+    "n_food_test": 238,
+    "flip_rate_food": 0.0,
+    "mean_v_starving": -0.03323569215839936,
+    "mean_v_sated": -0.03323569215839936
+  },
+  "conditioned": {
+    "test_mse_all": 0.08100490479665129,
+    "test_mse_food": 0.07194781470216588,
+    "test_mse_nonfood": 0.0911727700914038,
+    "n_food_test": 238,
+    "flip_rate_food": 0.9747899159663865,
+    "mean_v_starving": 1.2939353465879888,
+    "mean_v_sated": -1.4009252109467047
+  }
+}

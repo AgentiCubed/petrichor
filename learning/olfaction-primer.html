@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Petrichor — How Smell Works (Primer)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --ink:#eef1f6; --mut:#a8b0bd;
+    --accent:#7cc4ff; --accent2:#ffd479; --good:#7ee0a8; --bad:#ff8e8e;
+    --line:#2a2f3a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:20px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 22px 80px}
+  h1{font-size:40px;line-height:1.15;margin:0 0 6px}
+  h2{font-size:28px;margin:42px 0 10px;border-bottom:2px solid var(--line);padding-bottom:8px}
+  h3{font-size:22px;margin:24px 0 6px;color:var(--accent)}
+  p{margin:10px 0}
+  .sub{color:var(--mut);font-size:21px;margin-top:0}
+  .tag{display:inline-block;background:#20262f;border:1px solid var(--line);
+    color:var(--accent2);border-radius:999px;padding:2px 12px;font-size:15px;margin-bottom:18px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin:16px 0}
+  .key{color:var(--accent2);font-weight:600}
+  .term{color:var(--accent);font-weight:600}
+  ul{margin:8px 0 8px 2px;padding-left:22px}
+  li{margin:7px 0}
+  .pill{background:#20262f;border-radius:8px;padding:1px 8px;font-size:16px;color:var(--mut)}
+  /* flow diagram */
+  .flow{display:flex;flex-direction:column;gap:0;margin:10px 0}
+  .step{background:#1c222b;border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:12px 16px;position:relative}
+  .step b{color:#fff}
+  .step small{color:var(--mut);display:block;font-size:16px;margin-top:2px}
+  .arrow{align-self:center;color:var(--accent);font-size:26px;line-height:1;margin:4px 0}
+  .limbic{border-left-color:var(--accent2)}
+  .limbic b{color:var(--accent2)}
+  .compare{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .col{flex:1;min-width:260px;background:#1c222b;border:1px solid var(--line);border-radius:12px;padding:14px}
+  .col h4{margin:0 0 8px;font-size:18px}
+  .route{font-size:17px;color:var(--mut);line-height:1.8}
+  .route .skip{color:var(--bad);text-decoration:line-through}
+  .route .direct{color:var(--good);font-weight:600}
+  /* combinatorial grid */
+  table{border-collapse:collapse;margin:10px 0;font-size:17px;width:100%}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+  th{background:#20262f;color:var(--mut)}
+  .on{background:#23402f;color:var(--good);font-weight:700}
+  .off{color:#4b515c}
+  details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:8px 0}
+  summary{cursor:pointer;font-weight:600;color:var(--accent)}
+  .glo dt{color:var(--accent2);font-weight:700;margin-top:10px}
+  .glo dd{margin:2px 0 0;color:var(--ink)}
+  .why{background:#161e18;border:1px solid #244a31;border-left:5px solid var(--good);border-radius:12px;padding:14px 18px}
+  .mne{font-size:22px;letter-spacing:.3px}
+  a{color:var(--accent)}
+  .foot{color:var(--mut);font-size:15px;margin-top:50px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">Petrichor · learning device</span>
+  <h1>How Smell Works</h1>
+  <p class="sub">The organ, the pathway, the code, and how it talks to the world and to you — in one read. Built for the project; jargon is glossed inline and in the glossary at the bottom.</p>
+
+  <h2>1 · The one-line version</h2>
+  <div class="panel">
+    Smell is your body <span class="key">reading airborne molecules</span>. You sniff,
+    air carries molecules to a patch of tissue high in your nose, special nerve cells
+    grab them, and — uniquely — that signal runs <span class="key">straight into the
+    emotional and memory parts of the brain</span>, skipping the relay station every
+    other sense has to pass through.
+  </div>
+  <p><span class="term">Two ways you smell:</span> <b>orthonasal</b> / through the nostrils (sniffing the world) and <b>retronasal</b> / up the back of the throat from your mouth (this is most of what you call "taste" — chewing pushes molecules up the back way).</p>
+
+  <h2>2 · The organ</h2>
+  <ul>
+    <li><span class="term">Nasal cavity</span> — the air highway. Most air just passes through; a sniff redirects more of it upward.</li>
+    <li><span class="term">Olfactory epithelium</span> / a postage-stamp patch of tissue at the <b>roof</b> of the nasal cavity — this is the actual smell organ.</li>
+    <li><span class="term">Mucus + cilia</span> — molecules first dissolve in mucus, then meet tiny hairs (<b>cilia</b>) sticking out of the nerve cells. No dissolving, no smell (that's why a bone-dry nose smells poorly).</li>
+    <li><span class="term">Olfactory receptor neurons (ORNs)</span> — the sensor cells. Humans have ~<b>6 million</b>, carrying ~<b>400 types</b> of receptor (a dog has far more). These nerve cells are unusual: they're <b>directly exposed to the outside world</b> and they <b>regenerate</b> throughout life.</li>
+  </ul>
+
+  <h2>3 · The pathway — follow one molecule</h2>
+  <div class="flow">
+    <div class="step"><b>Odorant molecule</b><small>floats in on the air you sniff</small></div>
+    <div class="arrow">↓</div>
+    <div class="step"><b>Dissolves in mucus → binds a receptor on a cilium</b><small>like a key meeting a lock</small></div>
+    <div class="arrow">↓</div>
+    <div class="step"><b>The ORN fires</b><small>chemical event becomes an electrical signal</small></div>
+    <div class="arrow">↓</div>
+    <div class="step"><b>Axons pass through the cribriform plate</b><small>tiny holes in the bone above the nose, into the skull</small></div>
+    <div class="arrow">↓</div>
+    <div class="step"><b>Olfactory bulb → glomeruli</b><small>a sorting office: all neurons of the same receptor type converge on the same spot</small></div>
+    <div class="arrow">↓</div>
+    <div class="step"><b>Mitral &amp; tufted cells → olfactory tract</b><small>the bulb's output wires, carrying the signal deeper</small></div>
+    <div class="arrow">↓</div>
+    <div class="step limbic"><b>STRAIGHT to the limbic system</b><small>piriform cortex (smell ID), amygdala (emotion), entorhinal cortex → hippocampus (memory) — no thalamus first</small></div>
+  </div>
+
+  <h3>Why "no thalamus" is the whole point</h3>
+  <div class="compare">
+    <div class="col">
+      <h4>👁️ Sight, 👂 hearing, ✋ touch</h4>
+      <div class="route">eye/ear/skin → <span class="pill">thalamus</span> (relay &amp; filter) → cortex (think about it) → <span class="route">emotion/memory, later</span></div>
+    </div>
+    <div class="col">
+      <h4>👃 Smell</h4>
+      <div class="route">nose → <span class="skip">thalamus</span> → <span class="direct">emotion + memory, immediately</span></div>
+    </div>
+  </div>
+  <p class="sub" style="font-size:18px">Every other sense gets pre-processed before it reaches feeling. Smell hits feeling <i>first</i>. That's why a scent can yank up a buried memory or a wave of dread before you've even named it.</p>
+
+  <h2>4 · The code — how 400 receptors smell a million things</h2>
+  <p><span class="term">Combinatorial coding</span> (Buck &amp; Axel, Nobel 2004): one molecule switches on a <b>combination</b> of receptors, and one receptor responds to <b>many</b> molecules. The <i>pattern</i> of who-fired IS the smell — like letters spelling different words.</p>
+  <table>
+    <tr><th></th><th>Recept. A</th><th>Recept. B</th><th>Recept. C</th><th>Recept. D</th></tr>
+    <tr><th>Coffee</th><td class="on">●</td><td class="off">·</td><td class="on">●</td><td class="on">●</td></tr>
+    <tr><th>Banana</th><td class="off">·</td><td class="on">●</td><td class="on">●</td><td class="off">·</td></tr>
+    <tr><th>Rotten egg</th><td class="on">●</td><td class="on">●</td><td class="off">·</td><td class="on">●</td></tr>
+  </table>
+  <p class="sub" style="font-size:18px">Same four receptors, different on/off pattern = different smell. This is exactly the "vector" idea the project keeps talking about.</p>
+
+  <h2>5 · How it talks to the world &amp; to its host</h2>
+  <h3>Reading the world</h3>
+  <ul>
+    <li><span class="term">Smell proper</span> — the receptor system above (identity of molecules).</li>
+    <li><span class="term">Trigeminal nerve</span> — a <i>separate</i> channel for irritation/temperature/pungency: the <b>burn</b> of chili, <b>cool</b> of menthol, sting of ammonia, and — crucially for us — <b>CO₂</b>. This is the "something's wrong with the air" alarm, distinct from smell.</li>
+    <li><span class="term">Vomeronasal organ (VNO)</span> — a second chemical sensor wired for <b>pheromones</b>. Big and active in many animals (snakes, rodents, cats); in humans it's vestigial/debated.</li>
+  </ul>
+  <h3>Writing to the world (in animals)</h3>
+  <p>Many species don't just <i>read</i> chemistry, they <b>write</b> it: ant trail pheromones, hyena scent-marks, dog territory marking. Smell is a <span class="key">read-and-write channel</span> — a shared external memory and messaging layer. (Most senses only read.)</p>
+  <h3>Talking to the host (you)</h3>
+  <ul>
+    <li><b>Emotion</b> (amygdala) — instant like/dislike, fear, comfort.</li>
+    <li><b>Memory</b> (hippocampus) — the Proust effect: scent → vivid involuntary recall.</li>
+    <li><b>Drive &amp; body</b> — appetite (salivating at the Maillard reaction), nausea/avoidance, alertness, social/affective signals.</li>
+  </ul>
+
+  <h2>6 · Why this maps onto Petrichor</h2>
+  <div class="why">
+    <ul style="margin:0">
+      <li><b>Direct-to-limbic</b> → smell is <span class="key">valence</span> (good/bad, approach/avoid) — our whole thesis.</li>
+      <li><b>Combinatorial code</b> → smell is naturally a <span class="key">pattern/vector</span> — the representation we'd learn.</li>
+      <li><b>Trigeminal CO₂ alarm</b> → the ancient "bad air / can't breathe" tripwire — the suffocation-alarm thread, the deepest punishment signal.</li>
+      <li><b>Read + write</b> → chemical <span class="key">stigmergy</span> for multi-agent coordination.</li>
+      <li><b>Regenerating, exposed sensors</b> → biology accepts a fragile, self-repairing front end — a hint for hardware.</li>
+    </ul>
+  </div>
+
+  <h2>🧠 Learning devices</h2>
+  <h3>Mnemonic — the molecule's journey</h3>
+  <p class="mne">“<b>M</b>olecules <b>C</b>ling, <b>O</b>RNs <b>F</b>ire, <b>B</b>ulb <b>S</b>orts, <b>L</b>imbic <b>F</b>eels.”<br>
+  <span class="sub" style="font-size:17px">Mucus → Cilia/receptors → ORN fires → Bulb sorts (glomeruli) → Limbic feels (emotion+memory).</span></p>
+
+  <h3>One-sentence analogy</h3>
+  <p>The nose is a <b>lock-and-key switchboard wired directly into the heart instead of the head</b> — it routes "what's in the air" straight to "how do I feel about it," before thinking gets a vote.</p>
+
+  <h3>Self-check (tap to reveal)</h3>
+  <details><summary>Which relay station does smell skip that other senses use?</summary><p>The <b>thalamus</b>. Smell goes straight to the limbic system (emotion + memory).</p></details>
+  <details><summary>How do only ~400 receptor types detect ~1 trillion smells?</summary><p><b>Combinatorial coding</b> — each smell is a unique <i>pattern</i> of which receptors fire, not one dedicated receptor per smell.</p></details>
+  <details><summary>What detects CO₂ and chili-burn — and is it "smell"?</summary><p>The <b>trigeminal nerve</b>, a separate irritation/temperature channel. Not smell proper — it's the "something's off with the air" alarm.</p></details>
+  <details><summary>What makes smell-memory feel different from other memory?</summary><p>The direct wiring to the <b>hippocampus + amygdala</b> means scent triggers recall <i>involuntarily</i> and with strong emotion (the Proust effect).</p></details>
+
+  <h3>Glossary / decoder</h3>
+  <dl class="glo">
+    <dt>Odorant</dt><dd>an airborne molecule that can trigger smell.</dd>
+    <dt>Olfactory epithelium</dt><dd>the postage-stamp smell-sensor patch at the roof of the nasal cavity.</dd>
+    <dt>ORN (olfactory receptor neuron)</dt><dd>the nerve cell that detects odorants; exposed to the air and regenerates.</dd>
+    <dt>Cilia</dt><dd>tiny hairs on the ORN where receptors sit.</dd>
+    <dt>Cribriform plate</dt><dd>the perforated bone the smell nerves pass through into the skull.</dd>
+    <dt>Olfactory bulb / glomeruli</dt><dd>the brain's first smell station; glomeruli are sorting spots where same-type signals converge.</dd>
+    <dt>Limbic system</dt><dd>emotion + memory core (amygdala, hippocampus). Smell's direct destination.</dd>
+    <dt>Combinatorial coding</dt><dd>smells encoded as patterns across many receptors, not one-per-smell.</dd>
+    <dt>Trigeminal</dt><dd>separate nerve for irritation/temperature/CO₂ (chili burn, menthol cool).</dd>
+    <dt>Orthonasal / Retronasal</dt><dd>smelling through the nostrils / from the mouth up the back of the throat.</dd>
+    <dt>Vomeronasal organ</dt><dd>a pheromone-sensing organ, active in many animals, vestigial in humans.</dd>
+  </dl>
+
+  <p class="foot">Petrichor learning artifact · v1 · built 2026-06-25. Accurate to standard neuroscience; simplified for onboarding. Go deeper: Wikipedia “Olfactory system”, and search TED-Ed “How do you smell?” for a short animation.</p>
+</div>
+</body>
+</html>

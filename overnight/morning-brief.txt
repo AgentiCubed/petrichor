@@ -1,0 +1,29 @@
+Morning. Worked Petrichor while you slept — reversible only, no chat pings, this email is the one external send. Coffee read below.
+
+== WHAT GOT DONE (3 research blocks + 2 granted side-tasks) ==
+- 01-machine-olfaction-state.md — state of machine olfaction 2024-26. POM/Osmo, scent "teleportation," the mixture frontier, GNN/transformer/receptor models, eNose hardware + drift wall, who's who. ~30 cited URLs.
+- 02-grounding-and-presence.md — your founding thesis stress-tested against the actual neuroscience. It survives, and sharpens. ~25 cited URLs.
+- 03-where-petrichor-plants-the-flag.md — the synthesis. Where the flag goes and the smallest experiment that turns the argument into evidence.
+- Granted lane (stream-kill): added Audible entry ($15.99/mo via Apple), synthetic fixture, re-sealed catalog, ran scan — Audible detected, no false positives. 6 subs / $80.78/mo total.
+- Granted lane: future-james-2026-06-29.md — mirror note in your voice from ~Dec 2026.
+
+== KEY FINDINGS (the ones that matter) ==
+1. The thesis got STRONGER, not weaker. "Smell = direct line to limbic, no thalamus" is literal documented wiring, not metaphor. Stop hedging on it.
+2. Valence isn't a feature smell HAS — it's smell's FIRST principal axis. Pleasant/unpleasant is what olfaction is for, hardwired and staged as early as the bulb. The exact channel machines skipped is the part biology treats as primary.
+3. The reframe: the lane isn't "AI that can smell." It's "a grounded VALENCE/affect channel, olfaction as the cleanest vehicle." The read-the-molecule half (POM) is basically solved — the field's strength is orthogonal to your target. The valence seam is empty because it's hard. That's the whole point.
+4. There's a falsifiable first experiment small enough to actually finish (below).
+
+== THE ONE THING TO BUILD FIRST ==
+The "state-flip demo" (03 §4): train a small model on DREAM pleasantness ratings to predict valence from molecular structure, add one scalar internal-state input (e.g. satiety), show the SAME molecule flips good->bad as state changes — and that a descriptor-only baseline can't represent the flip. Weekend-to-fortnight, runs on a laptop, public data only. Turns the argument into evidence.
+
+== RECOMMENDED NEXT STEPS ==
+- Read 03 first (it points back into 01/02 where you want depth). Let the valence reframe settle.
+- If one thing: build the state-flip demo.
+- People in the seam worth a question (NOT a pitch, no sends without your say): Noam Sobel (Weizmann), the Mollo & Millière grounding line.
+
+== STILL ON YOU ==
+imsg needs your macOS toggles: Full Disk Access + Automation permission for Messages.app. GUI-only, I can't grant it. Until then, no iMessage.
+
+Nothing committed — changes left uncommitted for you to review. Full status in projects/petrichor/overnight/OVERNIGHT-LOG.md.
+
+— Ainz 🤘
