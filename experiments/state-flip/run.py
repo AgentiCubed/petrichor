@@ -25,7 +25,8 @@ import os
 
 import numpy as np
 
-from data import make_dataset, split_by_molecule, irreducible_baseline_food_mse
+from data import (make_dataset, load_dream, split_by_molecule,
+                  irreducible_baseline_food_mse)
 from models import StateBlindBaseline, StateConditionedHead
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -76,9 +77,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--plot", action="store_true", help="save figures to ./figures/")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--source", choices=["synthetic", "dream"], default="synthetic",
+                    help="synthetic toy world (provable floor) or real Keller/DREAM data")
     args = ap.parse_args()
 
-    data = make_dataset(seed=args.seed)
+    data = load_dream(seed=args.seed) if args.source == "dream" else make_dataset(seed=args.seed)
     train_mask, test_mask = split_by_molecule(data, seed=args.seed + 1)
 
     Xtr, str_, ytr = data["X_desc"][train_mask], data["state"][train_mask], data["y"][train_mask]
@@ -94,7 +97,8 @@ def main():
     print("=" * 68)
     print("STATE-FLIP DEMO  —  grounded valence (molecule x internal state)")
     print("=" * 68)
-    print(f"data: synthetic, {data['meta']['n_molecules']} molecules, "
+    print(f"data source: {data['meta'].get('source', 'synthetic')}")
+    print(f"data: {data['meta']['n_molecules']} molecules, "
           f"A(flip)={data['meta']['amplitude']}, noise sigma={data['meta']['noise_sigma']}")
     print(f"provable state-blind food-MSE floor (A^2/3) = {floor:.3f}")
     print(f"noise floor (sigma^2)                       = {data['meta']['noise_sigma']**2:.3f}")
@@ -142,22 +146,26 @@ def main():
     )
     print(verdict)
 
+    suffix = "" if args.source == "synthetic" else f"_{args.source}"
+
     if args.plot:
-        save_figures(baseline, conditioned, data, test_mask, res_b, res_c)
+        save_figures(baseline, conditioned, data, test_mask, res_b, res_c, suffix)
         print(f"\nfigures saved to {FIG_DIR}/")
 
-    # machine-readable dump for RESULTS.md (Block B)
+    # machine-readable dump for RESULTS.md
     summary = {
+        "source": data["meta"].get("source", "synthetic"),
+        "n_molecules": data["meta"]["n_molecules"],
         "floor_food_mse": floor,
         "noise_floor": data["meta"]["noise_sigma"] ** 2,
         "baseline": {k: res_b[k] for k in res_b if k != "examples"},
         "conditioned": {k: res_c[k] for k in res_c if k != "examples"},
     }
-    with open(os.path.join(HERE, "last_run.json"), "w") as f:
+    with open(os.path.join(HERE, f"last_run{suffix}.json"), "w") as f:
         json.dump(summary, f, indent=2)
 
 
-def save_figures(baseline, conditioned, data, test_mask, res_b, res_c):
+def save_figures(baseline, conditioned, data, test_mask, res_b, res_c, suffix=""):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -180,7 +188,7 @@ def save_figures(baseline, conditioned, data, test_mask, res_b, res_c):
     plt.title(f"Same molecule, flipping valence (food molecule #{m})")
     plt.legend()
     plt.tight_layout()
-    plt.savefig(os.path.join(FIG_DIR, "flip_curve.png"), dpi=130)
+    plt.savefig(os.path.join(FIG_DIR, f"flip_curve{suffix}.png"), dpi=130)
     plt.close()
 
     # Fig 2: food-MSE bars vs the provable floor.
@@ -196,7 +204,7 @@ def save_figures(baseline, conditioned, data, test_mask, res_b, res_c):
     plt.title("Cost of having nowhere to put state")
     plt.legend()
     plt.tight_layout()
-    plt.savefig(os.path.join(FIG_DIR, "food_mse.png"), dpi=130)
+    plt.savefig(os.path.join(FIG_DIR, f"food_mse{suffix}.png"), dpi=130)
     plt.close()
 
 

@@ -18,6 +18,15 @@ modelled. Here we model it with a transparent rule and SAY SO. `load_dream()`
 below is the documented seam where real descriptors/pleasantness drop in; the
 models in models.py do not care whether features are synthetic or Mordred/POM.
 
+UPDATE (Block F, 2026-06-29): `load_dream()` IS NOW WIRED to real data — the
+Keller 2016 / DREAM set pulled live via pyrfume. Real RDKit descriptors, real
+human pleasantness (base valence), and real human edibility (the food gate)
+replace the synthetic molecule axis. Only the satiety state-coupling stays
+modelled, because no public set ships molecule x internal-state pleasantness.
+Run `python run.py --source dream`. The synthetic path below is kept because its
+state-blind failure is a *provable theorem* (closed-form floor), which real
+noisy data cannot show as cleanly.
+
 THE GENERATIVE RULE (the ground truth both models are scored against):
     valence(m, s) = base(m) + food(m) * A * (1 - 2s) + noise
 
@@ -146,17 +155,164 @@ def split_by_molecule(data, test_frac=0.3, seed=1):
     return ~test_mask, test_mask
 
 
-def load_dream():
-    """SEAM for real data. Not implemented in Block A.
+# --- REAL DATA: Keller 2016 / DREAM olfaction set (Block F) ------------------
+# A fixed panel of interpretable RDKit descriptors. This is the REAL molecular
+# feature vector that replaces the synthetic `molecules` matrix. Chosen for
+# robustness (all defined for small odorant molecules) and interpretability.
+_RDKIT_DESCRIPTORS = [
+    "MolWt", "MolLogP", "TPSA", "NumHDonors", "NumHAcceptors",
+    "NumRotatableBonds", "RingCount", "NumAromaticRings", "NumAliphaticRings",
+    "NumSaturatedRings", "FractionCSP3", "NumHeteroatoms", "HeavyAtomCount",
+    "NumValenceElectrons", "qed", "BalabanJ", "BertzCT", "HallKierAlpha",
+    "LabuteASA", "Chi0", "Chi1", "Kappa1", "Kappa2", "MaxPartialCharge",
+    "MinPartialCharge",
+]
 
-    To swap in real olfaction data, return the same dict shape as make_dataset()
-    using DREAM/Keller per-molecule pleasantness as `y`, Mordred/RDKit or POM
-    embeddings as molecule descriptors, and a context variable (e.g. measured or
-    imputed satiety / hunger condition) as `state`. The models are agnostic to
-    the source. Until a context-resolved pleasantness set exists, the flip term
-    has to be modelled, which is exactly what make_dataset() does and declares.
+CACHE_CSV = "dream_real.csv"   # per-molecule real table, committed for offline reproduction
+
+
+def _build_real_table():
+    """Pull Keller 2016 (DREAM) via pyrfume, compute RDKit descriptors, and
+    aggregate per-molecule REAL pleasantness and REAL edibility. Returns a
+    pandas DataFrame indexed by CID with descriptor columns + 'pleas' + 'edible'.
+
+    REAL components:
+      - descriptors : RDKit descriptors from the published CanonicalSMILES.
+      - pleas       : mean human 'HOW PLEASANT IS THE SMELL?' rating (0-100),
+                      high-concentration (1/1000) stimuli, averaged over subjects.
+      - edible      : mean human 'EDIBLE' descriptor rating (0-100), same stimuli.
+    Everything here is real measured data; nothing is modelled.
     """
-    raise NotImplementedError(
-        "Real-data path is a documented stub. Block A uses make_dataset() "
-        "(principled synthetic, declared in this module's docstring)."
-    )
+    import pyrfume
+    import pandas as pd
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors
+    from rdkit import RDLogger
+    RDLogger.DisableLog("rdApp.*")
+
+    mol = pyrfume.load_data("keller_2016/molecules.csv")
+    st = pyrfume.load_data("keller_2016/stimuli.csv")
+    beh = pyrfume.load_data("keller_2016/behavior.csv")
+
+    # high-concentration (1/1000), single-CID stimuli -> CID
+    hi = st[st["Concentration"] == 1e-3][["Stimulus", "CIDs"]].copy()
+    hi["CID"] = pd.to_numeric(hi["CIDs"], errors="coerce")
+    hi = hi.dropna(subset=["CID"]); hi["CID"] = hi["CID"].astype(int)
+
+    def per_cid(label):
+        sub = beh[beh["MeasurementValue"] == label].merge(hi, on="Stimulus")
+        sub["v"] = pd.to_numeric(sub["Value"], errors="coerce")
+        return sub.dropna(subset=["v"]).groupby("CID")["v"].mean()
+
+    pleas = per_cid("HOW PLEASANT IS THE SMELL?").rename("pleas")
+    edible = per_cid("EDIBLE").rename("edible")
+
+    mol = mol.copy(); mol["CID"] = mol["CID"].astype(int)
+    rows = {}
+    desc_fns = {name: getattr(Descriptors, name) for name in _RDKIT_DESCRIPTORS}
+    for cid, smi in zip(mol["CID"], mol["CanonicalSMILES"]):
+        m = Chem.MolFromSmiles(str(smi))
+        if m is None:
+            continue
+        vals = {}
+        ok = True
+        for name, fn in desc_fns.items():
+            try:
+                x = float(fn(m))
+            except Exception:
+                ok = False; break
+            if not np.isfinite(x):
+                ok = False; break
+            vals[name] = x
+        if ok:
+            rows[cid] = vals
+
+    desc = pd.DataFrame.from_dict(rows, orient="index")
+    desc.index.name = "CID"
+    table = desc.join(pleas, how="inner").join(edible, how="inner").dropna()
+    return table
+
+
+def _load_real_table():
+    """Load the cached real per-molecule table, building (and caching) it from
+    pyrfume on first run so the repo reproduces offline thereafter."""
+    import os
+    import pandas as pd
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), CACHE_CSV)
+    if os.path.exists(path):
+        return pd.read_csv(path, index_col="CID")
+    table = _build_real_table()
+    table.to_csv(path)
+    return table
+
+
+def load_dream(seed=0, amplitude=FLIP_AMPLITUDE, noise_sigma=NOISE_SIGMA):
+    """REAL-DATA path. Returns the SAME dict shape as make_dataset(), so the
+    models in models.py and the scoring in run.py are unchanged.
+
+    WHAT IS REAL (measured, from Keller 2016 / DREAM, ~400 odorants):
+      - molecule descriptors : RDKit descriptors of the published SMILES.
+      - base(m) (intrinsic valence) : mean human PLEASANTNESS rating, centered
+        and scaled to ~[-1, 1]. This is real human valence, not invented.
+      - food gate : mean human EDIBLE rating, binarized at its median. Whether a
+        molecule is state-modulated is therefore decided by a real human
+        food-association judgement, not a synthetic linear region.
+
+    WHAT IS STILL MODELLED (and why):
+      - the satiety coupling  food(m) * A * (1 - 2s).  No public olfaction set
+        ships per-molecule x internal-state pleasantness; the standard DREAM
+        release collapses context. So the *flip with state* is overlaid on the
+        REAL base/edibility with a transparent rule (identical to make_dataset),
+        and we SAY SO. The architectural claim being tested is exactly about
+        this term: a state-blind model has nowhere to put it. Real chemistry and
+        real human valence now stand in for the molecule axis; only the state
+        axis remains a declared model.
+    """
+    rng = np.random.default_rng(seed)
+    table = _load_real_table()
+
+    desc = table[_RDKIT_DESCRIPTORS].to_numpy(dtype=float)
+    # standardize descriptors (z-score); guard zero-variance columns
+    mu = desc.mean(0); sd = desc.std(0); sd[sd == 0] = 1.0
+    molecules = (desc - mu) / sd
+    n_molecules, d = molecules.shape
+
+    # REAL base valence: center pleasantness on 50 (scale midpoint) -> ~[-1,1].
+    pleas = table["pleas"].to_numpy(dtype=float)
+    base = (pleas - 50.0) / 50.0
+
+    # REAL food gate: binarize edibility at its median.
+    edible = table["edible"].to_numpy(dtype=float)
+    mol_food = (edible > np.median(edible)).astype(int)
+
+    X_desc, state, y, is_food, mol_id = [], [], [], [], []
+    for i in range(n_molecules):
+        s = rng.random(SAMPLES_PER_MOLECULE)
+        flip = mol_food[i] * amplitude * (1.0 - 2.0 * s)   # MODELLED state coupling
+        v = base[i] + flip + rng.normal(0, noise_sigma, SAMPLES_PER_MOLECULE)
+        X_desc.append(np.tile(molecules[i], (SAMPLES_PER_MOLECULE, 1)))
+        state.append(s)
+        y.append(v)
+        is_food.append(np.full(SAMPLES_PER_MOLECULE, mol_food[i]))
+        mol_id.append(np.full(SAMPLES_PER_MOLECULE, i))
+
+    return {
+        "X_desc": np.vstack(X_desc),
+        "state": np.concatenate(state),
+        "y": np.concatenate(y),
+        "is_food": np.concatenate(is_food).astype(int),
+        "mol_id": np.concatenate(mol_id).astype(int),
+        "molecules": molecules,
+        "mol_food": mol_food,
+        "base": base,
+        "meta": {
+            "amplitude": amplitude,
+            "noise_sigma": noise_sigma,
+            "n_molecules": n_molecules,
+            "samples_per_molecule": SAMPLES_PER_MOLECULE,
+            "d_descriptors": d,
+            "source": "keller_2016 (DREAM): real RDKit descriptors + real human "
+                      "pleasantness (base) + real human edibility (food gate); "
+                      "satiety state-coupling modelled (no public molecule x state set)",
+        },
+    }
