@@ -1,0 +1,24 @@
+{
+  "source": "keller_2016 (DREAM): real RDKit descriptors + real human pleasantness (base) + real human edibility (food gate); satiety state-coupling modelled (no public molecule x state set)",
+  "n_molecules": 413,
+  "floor_food_mse": 0.75,
+  "noise_floor": 0.010000000000000002,
+  "baseline": {
+    "test_mse_all": 0.4736898065323253,
+    "test_mse_food": 0.8251287094364823,
+    "test_mse_nonfood": 0.0737765721931121,
+    "n_food_test": 66,
+    "flip_rate_food": 0.0,
+    "mean_v_starving": -0.10598827804144008,
+    "mean_v_sated": -0.10598827804144008
+  },
+  "conditioned": {
+    "test_mse_all": 0.5057390055174695,
+    "test_mse_food": 0.6722033807617893,
+    "test_mse_nonfood": 0.31631402679117476,
+    "n_food_test": 66,
+    "flip_rate_food": 0.7575757575757576,
+    "mean_v_starving": 0.7987637194351169,
+    "mean_v_sated": -0.6060549421917358
+  }
+}

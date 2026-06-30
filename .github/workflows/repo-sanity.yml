@@ -1,0 +1,43 @@
+name: repo-sanity
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  repo-sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile all Python (syntax check)
+        run: |
+          set -e
+          mapfile -t files < <(git ls-files '*.py')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No Python files to compile."
+          else
+            printf 'Compiling %d file(s)...\n' "${#files[@]}"
+            python -m py_compile "${files[@]}"
+          fi
+
+      - name: Require key files
+        run: |
+          set -e
+          missing=0
+          for f in README.md FOUNDING.md; do
+            if [ -f "$f" ]; then
+              echo "present: $f"
+            else
+              echo "MISSING: $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "repo-sanity failed: required file(s) missing."
+            exit 1
+          fi
