@@ -1,8 +1,9 @@
 name: repo-sanity
+
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, master]
 
 jobs:
   repo-sanity:
@@ -29,7 +30,7 @@ jobs:
         run: |
           set -e
           missing=0
-          for f in README.md FOUNDING.md; do
+          for f in README.md FOUNDING.md petrichor/__init__.py pyproject.toml requirements.txt; do
             if [ -f "$f" ]; then
               echo "present: $f"
             else
