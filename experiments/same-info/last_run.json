@@ -1,0 +1,71 @@
+{
+  "source": "synthetic",
+  "floor_food_mse": 0.75,
+  "flip": {
+    "blind": {
+      "test_mse_all": 0.41164619421499354,
+      "test_mse_food": 0.7740763017599294,
+      "test_mse_nonfood": 0.07709532571197578,
+      "n_food_test": 216,
+      "flip_rate_food": 0.0,
+      "mean_v_starving": 0.01889412541801894,
+      "mean_v_sated": 0.01889412541801894
+    },
+    "conditioned": {
+      "test_mse_all": 0.08924221302256952,
+      "test_mse_food": 0.07763624974396696,
+      "test_mse_nonfood": 0.0999554098951257,
+      "n_food_test": 216,
+      "flip_rate_food": 0.9768518518518519,
+      "mean_v_starving": 1.4144335862244768,
+      "mean_v_sated": -1.3516304895519624
+    },
+    "same_info": {
+      "test_mse_all": 0.425982650439004,
+      "test_mse_food": 0.7865932873629323,
+      "test_mse_nonfood": 0.09311129327845485,
+      "n_food_test": 216,
+      "flip_rate_food": 0.004629629629629629,
+      "mean_v_starving": 0.029989732988668538,
+      "mean_v_sated": 0.028628708432852996
+    }
+  },
+  "choice": {
+    "blind": {
+      "flip": {
+        "accuracy": 0.5,
+        "mean_regret": 0.489854606481328,
+        "n_trials": 432
+      },
+      "random": {
+        "accuracy": 0.6577777777777778,
+        "mean_regret": 0.2855707074062248,
+        "n_trials": 450
+      }
+    },
+    "conditioned": {
+      "flip": {
+        "accuracy": 0.9629629629629629,
+        "mean_regret": 0.024233869954207104,
+        "n_trials": 432
+      },
+      "random": {
+        "accuracy": 0.8644444444444445,
+        "mean_regret": 0.05752717589876068,
+        "n_trials": 450
+      }
+    },
+    "same_info": {
+      "flip": {
+        "accuracy": 0.5,
+        "mean_regret": 0.5070873190913562,
+        "n_trials": 432
+      },
+      "random": {
+        "accuracy": 0.6755555555555556,
+        "mean_regret": 0.28998270261785475,
+        "n_trials": 450
+      }
+    }
+  }
+}

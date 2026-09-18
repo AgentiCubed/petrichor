@@ -1,0 +1,151 @@
+{
+  "episodes": 20,
+  "seed": 0,
+  "results": {
+    "random": {
+      "starving": {
+        "mean_return": -0.080855542691603,
+        "std_return": 4.970864094818411,
+        "mean_food_forages": 7.1,
+        "mean_toxin_forages": 2.1,
+        "n_episodes": 20,
+        "satiety_mode": "starving",
+        "policy": "random"
+      },
+      "sated": {
+        "mean_return": -3.0633458416727004,
+        "std_return": 2.763576278165167,
+        "mean_food_forages": 7.05,
+        "mean_toxin_forages": 3.35,
+        "n_episodes": 20,
+        "satiety_mode": "sated",
+        "policy": "random"
+      },
+      "mixed": {
+        "mean_return": -1.576562156053673,
+        "std_return": 2.6007681365583033,
+        "mean_food_forages": 5.35,
+        "mean_toxin_forages": 3.6,
+        "n_episodes": 20,
+        "satiety_mode": "mixed",
+        "policy": "random"
+      }
+    },
+    "blind": {
+      "starving": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "starving",
+        "policy": "blind"
+      },
+      "sated": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "sated",
+        "policy": "blind"
+      },
+      "mixed": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "mixed",
+        "policy": "blind"
+      }
+    },
+    "same_info": {
+      "starving": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "starving",
+        "policy": "same_info"
+      },
+      "sated": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "sated",
+        "policy": "same_info"
+      },
+      "mixed": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "mixed",
+        "policy": "same_info"
+      }
+    },
+    "conditioned": {
+      "starving": {
+        "mean_return": 2.9591109544576732,
+        "std_return": 4.440892098500626e-16,
+        "mean_food_forages": 17.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "starving",
+        "policy": "conditioned"
+      },
+      "sated": {
+        "mean_return": 0.8324828812295951,
+        "std_return": 0.0,
+        "mean_food_forages": 7.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "sated",
+        "policy": "conditioned"
+      },
+      "mixed": {
+        "mean_return": 1.1442470235554132,
+        "std_return": 0.6007795175920465,
+        "mean_food_forages": 8.75,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "mixed",
+        "policy": "conditioned"
+      }
+    },
+    "receptor": {
+      "starving": {
+        "mean_return": 2.595966483069742,
+        "std_return": 8.881784197001252e-16,
+        "mean_food_forages": 16.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "starving",
+        "policy": "receptor"
+      },
+      "sated": {
+        "mean_return": -0.8000000000000002,
+        "std_return": 1.1102230246251565e-16,
+        "mean_food_forages": 0.0,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "sated",
+        "policy": "receptor"
+      },
+      "mixed": {
+        "mean_return": 1.0498422583446647,
+        "std_return": 0.6692620926125142,
+        "mean_food_forages": 8.7,
+        "mean_toxin_forages": 0.0,
+        "n_episodes": 20,
+        "satiety_mode": "mixed",
+        "policy": "receptor"
+      }
+    }
+  }
+}

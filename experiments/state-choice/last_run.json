@@ -1,18 +1,17 @@
 {
   "source": "synthetic",
-  "amplitude": 1.5,
   "n_flip_pairs": 216,
   "n_random_pairs": 225,
   "blind_accuracy_ceiling_flip": 0.5,
   "baseline": {
     "flip": {
       "accuracy": 0.5,
-      "mean_regret": 0.48909584206799145,
+      "mean_regret": 0.489854606481328,
       "n_trials": 432
     },
     "random": {
       "accuracy": 0.6577777777777778,
-      "mean_regret": 0.28674036226139954,
+      "mean_regret": 0.2855707074062248,
       "n_trials": 450
     }
   },
@@ -24,7 +23,7 @@
     },
     "random": {
       "accuracy": 0.8644444444444445,
-      "mean_regret": 0.05752717589876066,
+      "mean_regret": 0.05752717589876068,
       "n_trials": 450
     }
   }

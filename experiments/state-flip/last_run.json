@@ -1,22 +1,24 @@
 {
+  "source": "synthetic",
+  "n_molecules": 1500,
   "floor_food_mse": 0.75,
   "noise_floor": 0.010000000000000002,
   "baseline": {
-    "test_mse_all": 0.44598364732984136,
-    "test_mse_food": 0.7938720876754958,
-    "test_mse_nonfood": 0.05542964354556888,
-    "n_food_test": 238,
+    "test_mse_all": 0.41164619421499354,
+    "test_mse_food": 0.7740763017599294,
+    "test_mse_nonfood": 0.07709532571197578,
+    "n_food_test": 216,
     "flip_rate_food": 0.0,
-    "mean_v_starving": -0.03323569215839936,
-    "mean_v_sated": -0.03323569215839936
+    "mean_v_starving": 0.01889412541801894,
+    "mean_v_sated": 0.01889412541801894
   },
   "conditioned": {
-    "test_mse_all": 0.08100490479665129,
-    "test_mse_food": 0.07194781470216588,
-    "test_mse_nonfood": 0.0911727700914038,
-    "n_food_test": 238,
-    "flip_rate_food": 0.9747899159663865,
-    "mean_v_starving": 1.2939353465879888,
-    "mean_v_sated": -1.4009252109467047
+    "test_mse_all": 0.08924221302256952,
+    "test_mse_food": 0.07763624974396696,
+    "test_mse_nonfood": 0.0999554098951257,
+    "n_food_test": 216,
+    "flip_rate_food": 0.9768518518518519,
+    "mean_v_starving": 1.4144335862244768,
+    "mean_v_sated": -1.3516304895519624
   }
 }
